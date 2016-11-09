@@ -38,16 +38,16 @@ public class CheckServiceTask {
     @Autowired
     private ResultCache resultCache;
 
-    @Scheduled(fixedRate = 5000)
+    @Scheduled(cron="*/10 * * * * *" )
     public void reportCurrentTime() {
         log.info("The time is now {}", dateFormat.format(new Date()));
-
+        long startTime = System.currentTimeMillis();
         int arg1 = dataGenerator.getInt(BOUND);
         int arg2 = dataGenerator.getInt(BOUND);
 
         Result result = (Result) appCtx.getBean("result", arg1, arg2);
+
         try {
-            long startTime = System.currentTimeMillis();
             HttpResponse<JsonNode> jsonResponse = Unirest.get("https://calculator-service.herokuapp.com/calc/add")
                     .header("accept", "application/json")
                     .queryString("arg1", result.getArg1())
@@ -59,7 +59,7 @@ public class CheckServiceTask {
             result.setResult(jsonObject.getInt("result"));
             result.setCorrect(arg1 + arg2 == result.getResult());
             result.setResponseTime(endTime - startTime);
-
+            result.setDate(new Date(startTime));
         } catch (UnirestException | JSONException e) {
             String msg = e.getMessage();
             result.setErrorMessage(msg);
