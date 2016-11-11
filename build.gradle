@@ -83,7 +83,7 @@ install.dependsOn(bootRepackage)
 
 task versioning(type:Exec) {
     workingDir './'
-    commandLine './bin/generate_version.sh'
+    commandLine 'git describe --tags --always --dirty'
     standardOutput = new ByteArrayOutputStream()
     doLast {
         String output = standardOutput.toString()
