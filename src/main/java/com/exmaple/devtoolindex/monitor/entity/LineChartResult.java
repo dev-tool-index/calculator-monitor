@@ -1,5 +1,6 @@
 package com.exmaple.devtoolindex.monitor.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.util.ArrayList;
@@ -16,10 +17,12 @@ import lombok.Setter;
 public class LineChartResult {
 
     @Getter
-    private List<RowData> data = new ArrayList<>();
+    private List<RowData> rows = new ArrayList<>();
     @Getter @Setter
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "EST")
     private Date date1;
     @Getter @Setter
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "EST")
     private Date date2;
 
     public void addRowData(int hour,
@@ -27,7 +30,7 @@ public class LineChartResult {
                            int second,
                            long y1,
                            long y2) {
-        data.add(new RowData(hour, minute, second, y1, y2));
+        rows.add(new RowData(hour, minute, second, y1, y2));
     }
 
 

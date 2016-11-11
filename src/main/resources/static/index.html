@@ -3,22 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="/css/app.css">
 </head>
 <body ng-app="myApp" ng-controller="myCtrl">
-TBU
 
-<div>
+<div id="chart_div"></div>
 
-    First Name: <input type="text" ng-model="firstName"><br>
-    Last Name: <input type="text" ng-model="lastName"><br>
-    <br>
-    Full Name: {{firstName + " " + lastName}}
+<div id="chartContainer" style="height: 300px; width: 100%;">
 
-</div>
-
-
-<!-- https://google-developers.appspot.com/chart/interactive/docs/gallery/linechart -->
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/canvasjs/1.7.0/canvasjs.min.js"></script>
 <script src="/js/app.js"></script>
 </body>
 </html>
