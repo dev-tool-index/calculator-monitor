@@ -17,8 +17,13 @@ buildscript {
 }
 
 // Apply the java plugin to add support for Java
-apply plugin: 'java'
-apply plugin: 'idea'
+plugins {
+    id 'java'
+    id 'idea'
+    id 'jacoco'
+    id "com.github.kt3k.coveralls" version "2.6.3"
+    id 'maven'
+}
 apply plugin: 'spring-boot'
 
 // In this section you declare where to find the dependencies of your project
@@ -59,4 +64,34 @@ dependencies {
     // testCompile dependency to testCompile 'org.testng:testng:6.8.1' and add
     // 'test.useTestNG()' to your build script.
     testCompile 'junit:junit:4.12'
+}
+
+jacoco {
+    toolVersion = "0.7.6.201602180812"
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        html.enabled = true
+        html.destination "${buildDir}/jacocoHtml"
+    }
+}
+
+group = 'com.github.dev-tool-index'
+install.dependsOn(bootRepackage)
+
+task versioning(type:Exec) {
+    workingDir './'
+    commandLine './bin/generate_version.sh'
+    standardOutput = new ByteArrayOutputStream()
+    doLast {
+        String output = standardOutput.toString()
+        logger.info("===================" +  'output ' + output)
+    }
+
+}
+
+processResources {
+    dependsOn versioning
 }
