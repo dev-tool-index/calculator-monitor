@@ -38,7 +38,7 @@ public class CheckServiceTask {
     @Autowired
     private ResultCache resultCache;
 
-    @Scheduled(cron="* */10 * * * *" )
+    @Scheduled(cron="0 */10 * * * *" )
     public void reportCurrentTime() {
         log.info("The time is now {}", dateFormat.format(new Date()));
         long startTime = System.currentTimeMillis();
