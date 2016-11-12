@@ -42,12 +42,16 @@ public class MonitorController {
         LineChartResult lineChartResult = new LineChartResult();
         DateTime dt = new DateTime().withTimeAtStartOfDay();
         DateTime end = dt.plusDays(1).withTimeAtStartOfDay();
-        lineChartResult.setDate1(dt.toDate());
-        lineChartResult.setDate2(end.toDate());
+        // yesterday
+        lineChartResult.setDate1(dt.minusDays(1).toDate());
+        // today
+        lineChartResult.setDate2(dt.toDate());
 
         while (dt.getMillis() < end.getMillis()) {
-            Result r1 = getResult(dt);
-            Result r2 = getResult(dt.minusDays(1));
+            // yesterday
+            Result r1 = getResult(dt.minusDays(1));
+            // today
+            Result r2 = getResult(dt);
             lineChartResult.addRowData(dt.getHourOfDay(), dt.getMinuteOfHour(), dt.getSecondOfMinute(), getResponseTime(r1), getResponseTime(r2));
             dt = dt.plusSeconds(10);
         }

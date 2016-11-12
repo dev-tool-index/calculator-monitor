@@ -42,7 +42,7 @@ app.controller('myCtrl', function ($scope, $http, $timeout) {
                     data: [
                         {
                             type: "line",
-                            color: "rgba(0,75,141,0.7)",
+                            color: "#00FF00",
                             showInLegend: true,
                             name: "series1",
                             legendText: date1,
@@ -50,7 +50,7 @@ app.controller('myCtrl', function ($scope, $http, $timeout) {
                         },
                         {
                             type: "line",
-                            color: "rgba(0,7,14,0.7)",
+                            color: "#0000FF",
                             showInLegend: true,
                             name: "series2",
                             legendText: date2,
