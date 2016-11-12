@@ -2,12 +2,14 @@ package com.exmaple.devtoolindex.monitor.contributor;
 
 import com.exmaple.devtoolindex.monitor.helper.Helper;
 
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.info.Info;
 import org.springframework.boot.actuate.info.InfoContributor;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by hongkailiu on 2016-11-11.
@@ -19,7 +21,9 @@ public class AppInfoContributor implements InfoContributor {
 
     @Override
     public void contribute(Info.Builder builder) {
-        builder.withDetail("app info",
-                Collections.singletonMap("version", helper.getAppVersion()));
+        Map<String, Object> map = new HashMap();
+        map.put("version", helper.getAppVersion());
+        map.put("now", new DateTime().toString());
+        builder.withDetail("app info", map);
     }
 }
