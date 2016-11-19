@@ -53,7 +53,7 @@ public class MonitorController {
             // today
             Result r2 = getResult(dt);
             lineChartResult.addRowData(dt.getHourOfDay(), dt.getMinuteOfHour(), dt.getSecondOfMinute(), getResponseTime(r1), getResponseTime(r2));
-            dt = dt.plusSeconds(10);
+            dt = dt.plusSeconds(60);
         }
         return lineChartResult;
     }
