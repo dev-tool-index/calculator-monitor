@@ -12,11 +12,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Created by hongkailiu on 2016-11-06.
  */
 @RestController
 @RequestMapping("/monitor")
+@Slf4j
 public class MonitorController {
 
     @Autowired
@@ -34,6 +37,7 @@ public class MonitorController {
 
         LineChartResult lineChartResult = new LineChartResult();
         DateTime rightTime = getRightTime();
+        log.info("rightTime:" + rightTime);
         DateTime dt = rightTime.minusDays(1);
         DateTime end = rightTime;
 
@@ -44,8 +48,9 @@ public class MonitorController {
             Result r1 = getResult(dt.minusDays(1));
             // today
             Result r2 = getResult(dt);
-            lineChartResult.addRowData(dt.getMillis(), getResponseTime(r1), getResponseTime(r2));
-
+            if (r1 != null || r2 != null) {
+                lineChartResult.addRowData(dt.getMillis(), getResponseTime(r1), getResponseTime(r2));
+            }
         }
         return lineChartResult;
     }
@@ -53,8 +58,8 @@ public class MonitorController {
     private DateTime getRightTime() {
         DateTime now = new DateTime();
         return new DateTime(now.getYear(), now.getMonthOfYear(), now.getDayOfMonth(),
-                now.getHourOfDay(), now.getMinuteOfHour(),
-                now.getSecondOfMinute() - (now.getSecondOfMinute() % 10), 0);
+                now.getHourOfDay(), now.getMinuteOfHour() - (now.getMinuteOfHour() % 2),
+                0, 0);
     }
 
     private Long getResponseTime(Result r) {
