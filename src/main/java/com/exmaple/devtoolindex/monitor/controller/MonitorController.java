@@ -33,22 +33,28 @@ public class MonitorController {
     public LineChartResult getLineChartData() {
 
         LineChartResult lineChartResult = new LineChartResult();
-        DateTime dt = new DateTime().withTimeAtStartOfDay();
-        DateTime end = dt.plusDays(1).withTimeAtStartOfDay();
-        // yesterday
-        lineChartResult.setDate1(dt.minusDays(1).getMillis());
-        // today
-        lineChartResult.setDate2(dt.getMillis());
+        DateTime rightTime = getRightTime();
+        DateTime dt = rightTime.minusDays(1);
+        DateTime end = rightTime;
 
-        while (dt.getMillis() < end.getMillis()) {
+
+        while (dt.getMillis() <= end.getMillis()) {
+            dt = dt.plusSeconds(60);
             // yesterday
             Result r1 = getResult(dt.minusDays(1));
             // today
             Result r2 = getResult(dt);
             lineChartResult.addRowData(dt.getMillis(), getResponseTime(r1), getResponseTime(r2));
-            dt = dt.plusSeconds(60);
+
         }
         return lineChartResult;
+    }
+
+    private DateTime getRightTime() {
+        DateTime now = new DateTime();
+        return new DateTime(now.getYear(), now.getMonthOfYear(), now.getDayOfMonth(),
+                now.getHourOfDay(), now.getMinuteOfHour(),
+                now.getSecondOfMinute() - (now.getSecondOfMinute() % 10), 0);
     }
 
     private Long getResponseTime(Result r) {

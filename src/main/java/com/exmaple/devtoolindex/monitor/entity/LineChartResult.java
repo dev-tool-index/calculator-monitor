@@ -17,11 +17,9 @@ public class LineChartResult {
     @Getter
     private List<RowData> rows = new ArrayList<>();
     @Getter
-    @Setter
-    private long date1;
+    private String title1 = "last 48 - 24 hours";
     @Getter
-    @Setter
-    private long date2;
+    private String title2 = "last 24 hours - now";
 
     public void addRowData(long time,
                            long y1,

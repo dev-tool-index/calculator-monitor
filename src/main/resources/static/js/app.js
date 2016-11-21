@@ -9,8 +9,8 @@ app.controller('myCtrl', function ($scope, $http, $timeout) {
         $http.get("/monitor/lineChartData").then(function (response) {
             var data = response.data;
             console.log(data);
-            var date1 = getDate(data.date1);
-            var date2 = getDate(data.date2);
+            var title1 = data.title1;
+            var title2 = data.title2;
             var rows = data.rows;
             var points1 = [];
             var points2 = [];
@@ -55,7 +55,7 @@ app.controller('myCtrl', function ($scope, $http, $timeout) {
                             color: "#00FF00",
                             showInLegend: true,
                             name: "series1",
-                            legendText: date1,
+                            legendText: title1,
                             dataPoints: points1
                         },
                         {
@@ -63,7 +63,7 @@ app.controller('myCtrl', function ($scope, $http, $timeout) {
                             color: "#0000FF",
                             showInLegend: true,
                             name: "series2",
-                            legendText: date2,
+                            legendText: title2,
                             dataPoints: points2
                         }
 
