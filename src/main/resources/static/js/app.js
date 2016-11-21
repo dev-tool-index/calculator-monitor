@@ -18,11 +18,19 @@ app.controller('myCtrl', function ($scope, $http, $timeout) {
                 //
                 if (row.y1 != -1) {
                     points1.push(
-                        {x: new Date(2012, 06, 15, getLocalDate(row.time).getHours(), getLocalDate(row.time).getMinutes(), getLocalDate(row.time).getSeconds()), y: row.y1});
+                        {
+                            x: new Date(2012, 06, 15, getLocalDate(row.time)
+                                .getHours(), getLocalDate(row.time).getMinutes(), getLocalDate(
+                                row.time).getSeconds()), y: row.y1
+                        });
                 }
                 if (row.y2 != -1) {
                     points2.push(
-                        {x: new Date(2012, 06, 15, getLocalDate(row.time).getHours(), getLocalDate(row.time).getMinutes(), getLocalDate(row.time).getSeconds()), y: row.y2});
+                        {
+                            x: new Date(2012, 06, 15, getLocalDate(row.time)
+                                .getHours(), getLocalDate(row.time).getMinutes(), getLocalDate(
+                                row.time).getSeconds()), y: row.y2
+                        });
                 }
             });
 
@@ -76,7 +84,8 @@ app.controller('myCtrl', function ($scope, $http, $timeout) {
 function getDate(milliseconds) {
     var d = getLocalDate(milliseconds);
     var day = d.getDate();
-    var month = d.getMonth();
+    // http://www.w3schools.com/jsref/jsref_obj_date.asp
+    var month = d.getMonth() + 1; // 0 - 11
     var year = d.getFullYear();
 
     return year + "-" + month + "-" + day;
