@@ -8,19 +8,21 @@ app.controller('myCtrl', function ($scope, $http, $timeout) {
     $scope.reload = function () {
         $http.get("/monitor/lineChartData").then(function (response) {
             var data = response.data;
-            console.log(data)
-            var date1 = data.date1;
-            var date2 = data.date2;
+            console.log(data);
+            var date1 = getDate(data.date1);
+            var date2 = getDate(data.date2);
             var rows = data.rows;
             var points1 = [];
             var points2 = [];
-            rows.forEach(function(row) {
-                //{"hour":0,"minute":0,"second":0,"y1":-1,"y2":-1}
-                if (row.y1!=-1) {
-                    points1.push({x: new Date(2012, 06, 15, row.hour, row.minute, row.second), y: row.y1});
+            rows.forEach(function (row) {
+                //
+                if (row.y1 != -1) {
+                    points1.push(
+                        {x: new Date(2012, 06, 15, getLocalDate(row.time).getHours(), getLocalDate(row.time).getMinutes(), getLocalDate(row.time).getSeconds()), y: row.y1});
                 }
-                if (row.y2!=-1) {
-                    points2.push({x: new Date(2012, 06, 15, row.hour, row.minute, row.second), y: row.y2});
+                if (row.y2 != -1) {
+                    points2.push(
+                        {x: new Date(2012, 06, 15, getLocalDate(row.time).getHours(), getLocalDate(row.time).getMinutes(), getLocalDate(row.time).getSeconds()), y: row.y2});
                 }
             });
 
@@ -35,7 +37,7 @@ app.controller('myCtrl', function ($scope, $http, $timeout) {
                         labelAngle: -50
                     },
                     axisY: {
-                        title : "response time (ms)",
+                        title: "response time (ms)",
                         valueFormatString: "#,###"
                     },
 
@@ -61,7 +63,7 @@ app.controller('myCtrl', function ($scope, $http, $timeout) {
                 });
 
             chart.render();
-            
+
         });
 
         $timeout(function () {
@@ -70,3 +72,18 @@ app.controller('myCtrl', function ($scope, $http, $timeout) {
     };
     $scope.reload();
 });
+
+function getDate(milliseconds) {
+    var d = getLocalDate(milliseconds);
+    var day = d.getDate();
+    var month = d.getMonth();
+    var year = d.getFullYear();
+
+    return year + "-" + month + "-" + day;
+}
+
+function getLocalDate(milliseconds) {
+    var d = new Date(0); // The 0 there is the key, which sets the date to the epoch
+    d.setUTCSeconds(milliseconds / 1000);
+    return d;
+}

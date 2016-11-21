@@ -10,14 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.Calendar;
 import java.util.Collection;
-import java.util.Date;
-import java.util.Set;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Created by hongkailiu on 2016-11-06.
@@ -43,16 +36,16 @@ public class MonitorController {
         DateTime dt = new DateTime().withTimeAtStartOfDay();
         DateTime end = dt.plusDays(1).withTimeAtStartOfDay();
         // yesterday
-        lineChartResult.setDate1(dt.minusDays(1).toDate());
+        lineChartResult.setDate1(dt.minusDays(1).getMillis());
         // today
-        lineChartResult.setDate2(dt.toDate());
+        lineChartResult.setDate2(dt.getMillis());
 
         while (dt.getMillis() < end.getMillis()) {
             // yesterday
             Result r1 = getResult(dt.minusDays(1));
             // today
             Result r2 = getResult(dt);
-            lineChartResult.addRowData(dt.getHourOfDay(), dt.getMinuteOfHour(), dt.getSecondOfMinute(), getResponseTime(r1), getResponseTime(r2));
+            lineChartResult.addRowData(dt.getMillis(), getResponseTime(r1), getResponseTime(r2));
             dt = dt.plusSeconds(60);
         }
         return lineChartResult;
