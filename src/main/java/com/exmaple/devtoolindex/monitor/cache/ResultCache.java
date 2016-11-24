@@ -27,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
     @Autowired
     private DateHelper dateHelper;
     private Cache<String, Result> cache = CacheBuilder.newBuilder()
-            .maximumSize(1000)
+            .maximumSize(20000)
             .expireAfterWrite(7, TimeUnit.DAYS)
             .build();
 
