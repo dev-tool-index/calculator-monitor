@@ -24,6 +24,7 @@ public class AppInfoContributor implements InfoContributor {
         Map<String, Object> map = new HashMap();
         map.put("version", helper.getAppVersion());
         map.put("now", new DateTime().toString());
+        map.put("ips", helper.getIps());
         builder.withDetail("app info", map);
     }
 }

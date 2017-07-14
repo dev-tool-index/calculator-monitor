@@ -6,7 +6,13 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.nio.charset.Charset;
+import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.Set;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -55,5 +61,28 @@ public class Helper {
             IOUtils.closeQuietly(is);
         }
 
+    }
+
+    public Set<String> getIps() {
+        Set<String> ips = new HashSet();
+        try {
+
+            Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+            while (interfaces.hasMoreElements()) {
+                NetworkInterface iface = interfaces.nextElement();
+                // filters out 127.0.0.1 and inactive interfaces
+                if (iface.isLoopback() || !iface.isUp())
+                    continue;
+
+                Enumeration<InetAddress> addresses = iface.getInetAddresses();
+                while(addresses.hasMoreElements()) {
+                    InetAddress inetAddress = addresses.nextElement();
+                    ips.add(inetAddress.getHostAddress());
+                }
+            }
+        } catch (SocketException e) {
+            log.error(e.getMessage(), e);
+        }
+        return ips;
     }
 }
